@@ -460,15 +460,30 @@
         </div>
     </footer>
 
-    <script>
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', function(e) {
-                if (!e.target.classList.contains('card-link')) {
-                    const link = this.getAttribute('href');
-                    if (link) window.open(link, '_blank');
-                }
-            });
+   <script>
+    document.querySelectorAll('.card').forEach(card => {
+        // Lógica de clic
+        card.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('card-link')) {
+                const link = this.getAttribute('href');
+                if (link) window.open(link, '_blank');
+            }
         });
-    </script>
-</body>
+
+        // Lógica de efecto 3D
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (e.clientY - rect.top - centerY) / 20;
+            const rotateY = (centerX - (e.clientX - rect.left)) / 20;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        });
+    });
+</script>
 </html>
